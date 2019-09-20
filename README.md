@@ -23,3 +23,7 @@ User root
 IdentityFile ~/.ssh/id_rsa
 ProxyCommand ssh -A 35.207.119.87 nc %h %p
 ```
+
+# cloud-testapp
+testapp_IP = 35.204.50.163
+testapp_port = 9292
