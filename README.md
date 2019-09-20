@@ -23,3 +23,34 @@ User root
 IdentityFile ~/.ssh/id_rsa
 ProxyCommand ssh -A 35.207.119.87 nc %h %p
 ```
+
+# cloud-testapp
+testapp_IP = 35.204.50.163
+testapp_port = 9292
+
++ Скрипты от прошлого ДЗ перенесены в директорию VPN
++ Созданы shell скрипты для автоматизации установки приложения
++ Создан startup_script.sh для автоматического деплоя приложения
+
+### Startup script
+
+```
+gcloud compute instances create reddit-app \
+--boot-disk-size=10GB \
+--image-family ubuntu-1604-lts \
+--image-project=ubuntu-os-cloud \
+--machine-type=g1-small \
+--tags puma-server \
+--restart-on-failure \
+starup-script=./startup_script.sh
+```
+
+### Firewall rules
+
+```
+gcloud compute firewall-rules create default-puma-server \
+    --network default \
+    --allow=tcp:9292 \
+    --source-ranges 0.0.0.0/0 \
+    --target-tags=puma-server
+```
