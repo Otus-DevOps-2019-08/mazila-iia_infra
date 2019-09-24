@@ -54,3 +54,15 @@ gcloud compute firewall-rules create default-puma-server \
     --source-ranges 0.0.0.0/0 \
     --target-tags=puma-server
 ```
+
+# packer-base
+
++ Создан файл immutable.json (Packer шаблон)
++ Добавлены провижинеры для установки MongoDB и Ruby
++ Создан образ из шаблона
++ Создан инстанс из образа
++ Добавлены пользовательские переменные
++ Добавлен variables.json.example (variables.json добавлен в .gitignore)
++ Создан Packer шаблон immutable.json с автоматически установленным/запущенным приложением
++ Написан скрипт unit.sh для создания юнита puma
++ Создан create-redditvm.sh для создания инстанса из образа в bash
