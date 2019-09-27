@@ -80,7 +80,7 @@ gcloud compute firewall-rules create default-puma-server \
 + Создан variables.tf для переменных
 + Создан terraform.tfvars для переменных
 
-## Задания со *
+##  Задания со *
 
 + Добавил пользователей appuser2 и appuser3 для подключения по ssh в main.tf
 + После добавления shh ключа для appuser_web в веб интерфейсе при запуске terraform apply ключ будет удален
