@@ -12,11 +12,11 @@ provider "google" {
 }
 
 resource "google_compute_instance" "app" {
-  name         = "reddit-app"
+  name         = "reddit-app${count.index}"
   machine_type = "f1-micro"
   zone         = var.zone
   tags         = ["reddit-app"]
-
+  count        = var.counts
   boot_disk {
     initialize_params {
       image = "reddit-full"
@@ -29,7 +29,7 @@ resource "google_compute_instance" "app" {
   }
 
   metadata = {
-    ssh-keys = "appuser:${file(var.public_key_path)}"
+    ssh-keys = "appuser:${file(var.public_key_path)}appuser2:${file(var.public_key_path)}appuser3:${file(var.public_key_path)}"
   }
 
   connection {
