@@ -91,4 +91,4 @@ gcloud compute firewall-rules create default-puma-server \
 + Ручками копировать код для одинаковых инстансов - иррационально. main.tf поправлен для создания инстансов через count
 + Добавлены output переменные
 
- 
+
