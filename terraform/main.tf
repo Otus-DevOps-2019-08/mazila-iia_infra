@@ -16,7 +16,7 @@ resource "google_compute_instance" "app" {
   machine_type = "f1-micro"
   zone         = var.zone
   tags         = ["reddit-app"]
-  count        = var.counts
+  count        = 1
   boot_disk {
     initialize_params {
       image = "reddit-full"
