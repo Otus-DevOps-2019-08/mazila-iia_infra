@@ -16,6 +16,7 @@ module "app" {
   public_key_path = var.public_key_path
   zone            = var.zone
   app_disk_image  = var.app_disk_image
+  mongodb_ip      = module.db.db_local_ip
 }
 
 module "db" {

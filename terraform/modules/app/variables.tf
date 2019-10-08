@@ -10,3 +10,12 @@ variable app_disk_image {
   description = "Disk image for reddit app"
   default     = "reddit-app-base"
 }
+
+variable "mongodb_ip" {
+  description = "Mongodb ip"
+}
+
+variable private_key_path {
+  description = "Path to the private key used for ssh access"
+  default     = "~/.ssh/appuser"
+}
