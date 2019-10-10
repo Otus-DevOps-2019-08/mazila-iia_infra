@@ -1,35 +1,23 @@
-terraform {
-  # Версия terraform
-  required_version = "~> 0.12.8"
-}
-
-provider "google" {
-  # Версия провайдера
-  version = "2.15"
-  # ID проекта
-  project = var.project
-  region  = var.region
-}
-
 resource "google_compute_instance" "app" {
-  name         = "reddit-app${count.index}"
+  name         = "reddit-app"
   machine_type = "f1-micro"
   zone         = var.zone
   tags         = ["reddit-app"]
-  count        = var.counts
   boot_disk {
     initialize_params {
-      image = "reddit-full"
+      image = var.app_disk_image
     }
   }
 
   network_interface {
     network = "default"
-    access_config {}
+    access_config {
+      nat_ip = google_compute_address.app_ip.address
+    }
   }
 
   metadata = {
-    ssh-keys = "appuser:${file(var.public_key_path)}appuser2:${file(var.public_key_path)}appuser3:${file(var.public_key_path)}"
+    ssh-keys = "appuser:${file(var.public_key_path)}"
   }
 
   connection {
@@ -41,16 +29,25 @@ resource "google_compute_instance" "app" {
   }
 
   provisioner "file" {
-    source      = "files/puma.service"
+    source      = "${path.module}/files/puma.service"
     destination = "/tmp/puma.service"
   }
 
   provisioner "remote-exec" {
-    script = "files/deploy.sh"
+    inline = [
+      "echo export DATABASE_URL=\"${var.mongodb_ip}\" >> ~/.profile"
+    ]
   }
 
-}
+  provisioner "remote-exec" {
+    script = "${path.module}/files/deploy.sh"
+  }
 
+}  
+resource "google_compute_address" "app_ip" {
+  name = "reddit-app-ip"
+}
+  
 resource "google_compute_firewall" "firewall_puma" {
   name    = "allow-puma-default"
   network = "default"
@@ -61,4 +58,3 @@ resource "google_compute_firewall" "firewall_puma" {
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["reddit-app"]
 }
-
