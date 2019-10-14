@@ -109,3 +109,47 @@ gcloud compute firewall-rules create default-puma-server \
 + Настроен автодеплой приложения
 + Для mongodb в конфиге разрешено слушать любой ip, а не только localhost
 + Для app настроены провижинеры. Изменена переменная окружения DATABASE_URL на значение внутреннего адреса mongodb
+
+# ansible-1
+
++ Создана ветка ansible-1
++ Установлен ansible
++ Создан инвентори файл inventory
++ Создан ansible.cfg. Туда добавлены значения по умолчанию
++ Создан inventory.yml
++ Создан плейбук clone.yml
++ При первом выполнении команды:
+```
+ansible-playbook clone.yml
+```
+Никаких изменений не произошло, т.к. репозиторий уже склонирован
+При втором изменения уже есть, т.к. мы выполнили
+```
+ansible app -m command -a 'rm -rf ~/reddit'
+```
+
+##  Задания со *
+
+inventory.json
+
+```
+#!/bin/bash
+
+app_ip=$(gcloud compute instances describe reddit-app --zone europe-west1-b | grep natIP | sed 's/natIP: /''/' | sed -e 's/[\t ]//g;/^$/d')
+db_ip=$(gcloud compute instances describe reddit-db --zone europe-west1-b | grep natIP | sed 's/natIP: /''/' | sed -r 's/\s+//g')
+i=$(echo "{
+  "app": {
+    "hosts": [\"$app_ip \"]
+    },
+  "db": {
+    "hosts": [\"$db_ip \"]
+    }
+}"
+)
+
+echo $i
+```
+
+Ох, да, согласен, так себе решение через grep и sed получать значение IP, но этот динозавр работает :)
+
+На выходе получается json с хостами
