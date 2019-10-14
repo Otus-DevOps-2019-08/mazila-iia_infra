@@ -1,0 +1,15 @@
+#!/bin/bash
+
+app_ip=$(gcloud compute instances describe reddit-app --zone europe-west1-b | grep natIP | sed 's/natIP: /''/' | sed -e 's/[\t ]//g;/^$/d')
+db_ip=$(gcloud compute instances describe reddit-db --zone europe-west1-b | grep natIP | sed 's/natIP: /''/' | sed -r 's/\s+//g')
+i=$(echo "{
+  "app": {
+    "hosts": [\"$app_ip \"]
+    },
+  "db": {
+    "hosts": [\"$db_ip \"]
+    }
+}"
+)
+
+echo $i
