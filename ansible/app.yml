@@ -3,7 +3,7 @@
   hosts: app
   become: true
   vars:
-   db_host: 10.132.15.208
+   db_host: "{{ hostvars['reddit-db'].ip }}"
   tasks:
     - name: Add unit file for Puma
       copy:
