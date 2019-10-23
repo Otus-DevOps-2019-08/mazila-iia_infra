@@ -1,6 +1,8 @@
 # mazila-iia_infra
 mazila-iia Infra repository
 
+[![Build Status](https://travis-ci.com/Otus-DevOps-2019-08/mazila-iia_infra.svg?branch=master)](https://travis-ci.com/Otus-DevOps-2019-08/mazila-iia_infra)
+
 bastion_IP = 35.207.119.87
 someinternalhost_IP = 10.156.0.3
 
@@ -170,3 +172,15 @@ echo $i
 ##  Задания со *
 + С помощью gcp_compute настроен динамический инвентори (старый динамический инвентори из прошлого ДЗ со * деактивирован)
 + Настроены переменные для внутреннего интерфейса mongodb
+
+# ansible-3
+
++ Создана ветка ansible-3
++ Созданы роли app и db
++ Созданы окружения stage и prod
++ Установлена коммьюнити роль jdauphant.nginx
++ Настроено проксирование порта 9292 на 80. Соответственно, с помощью terraform, порт открыт
++ Настроен ansible vault
+
+##  Задания со *
++ Динамический инвентори уже был сделан для окружений
